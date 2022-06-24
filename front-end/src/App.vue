@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Menu from "@/components/Dashboard/Menu.vue"
 import Header from "@/components/Dashboard/Header.vue"
+import Tabs from "@/components/Dashboard/Tabs.vue"
 </script>
 
 <template>
@@ -13,7 +14,8 @@ import Header from "@/components/Dashboard/Header.vue"
         <el-aside width="200px">
           <Menu></Menu>
         </el-aside>
-        <el-main>
+        <el-main style="padding: 0px; max-width: 100%;overflow-x: hidden;">
+          <Tabs style="height:40px;"></Tabs>
           <router-view></router-view>
         </el-main>
       </el-container>
