@@ -9,9 +9,20 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // 允许第三方模块export的导出方式
     "esModuleInterop": true,
     "lib": ["esnext", "dom"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    // 新增规则
+    "allowSyntheticDefaultImports": true,
+    // "noImplicitAny": true
+    // element-plus配置
+    "types": ["element-plus/global"],
+    // 配置别名
+    "baseUrl": ".",
+    "paths": {
+      "@/*":["src/*"]
+    },
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]
