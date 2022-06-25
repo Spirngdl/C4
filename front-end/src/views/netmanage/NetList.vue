@@ -26,13 +26,13 @@
         </el-table-column>
         <el-table-column label="Operations">
           <template #default="scope">
-            <el-button size="small" @click="handleEdit(scope.$index, scope.row)"
+            <el-button size="small" @click="netVisual(scope.$index, scope.row)"
               >网络可视化</el-button
             >
             <el-button
               size="small"
               type="danger"
-              @click="handleDelete(scope.$index, scope.row)"
+              @click="netDelete(scope.$index, scope.row)"
               >删除网络</el-button
             >
           </template>
@@ -43,6 +43,7 @@
 
 <script setup lang="ts">
 import { MostlyCloudy } from '@element-plus/icons-vue'
+import {useRouter} from "vue-router"
 
 interface NetType {
   id:string,
@@ -51,10 +52,12 @@ interface NetType {
   remark:string
 }
 
-const handleEdit = (index: number, row: NetType) => {
-  console.log(index, row)
+const router =useRouter();
+const netVisual = (index: number, row: NetType) => {
+    // 跳转到指定网络topo页面
+    router.push({path:"/network:"+row.id})
 }
-const handleDelete = (index: number, row: NetType) => {
+const netDelete = (index: number, row: NetType) => {
   console.log(index, row)
 }
 

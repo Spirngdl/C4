@@ -15,16 +15,11 @@ const routes:Array<RouteRecordRaw> =[
         component:()=>import("@/views/dashboard/Dashboard.vue"),
         name:"dashboard"
     },
-    // 网络管理路由
-    // {
-    //     path:"/netmanage",
-    //     component:()=>import("@/views/netmanage/NetList.vue"),
-    //     name:"netmanage"
-    // },
+    // 网络可视化路由
     {
-        path:"/netlist",
-        component:()=>import("@/views/netmanage/NetList.vue"),
-        name:"netlist"
+        path:"/network:id",
+        component:()=>import("@/views/NetWork.vue"),
+        name:"network"
     },
     {
         path:"/netlist",
@@ -52,6 +47,7 @@ const routes:Array<RouteRecordRaw> =[
         component:()=>import("@/views/devicemanage/LinkList.vue"),
         name:"linklist"
     },
+    // 数据统计信息
     {
         path:"/delayinfo",
         component:()=>import("@/views/datamonitor/DelayInfo.vue"),
