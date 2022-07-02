@@ -9,6 +9,7 @@ import router from "@/router/index"
 const app =createApp(App)
 app.use(router).use(ElementPlus).mount('#app')
 
+
 // 按需获取element-plus中的图标文件，以便于动态渲染菜单列表上的图标
 import {HomeFilled,MostlyCloudy,Lightning,Plus,ShoppingBag,Platform,Postcard,SetUp,TrendCharts,Timer} 
 from "@element-plus/icons-vue"

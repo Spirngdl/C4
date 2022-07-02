@@ -13,45 +13,69 @@ const routes:Array<RouteRecordRaw> =[
     {
         path:"/dashboard",
         component:()=>import("@/views/dashboard/Dashboard.vue"),
-        name:"dashboard"
+        name:"dashboard",
+        meta:{
+            title:"首页"
+        }
     },
     // 网络可视化路由
     {
         path:"/network:id",
         component:()=>import("@/views/NetWork.vue"),
-        name:"network"
+        name:"network",
+        meta:{
+            title:"网络拓扑"
+        }
     },
     {
         path:"/netlist",
         component:()=>import("@/views/netmanage/NetList.vue"),
-        name:"netlist"
+        name:"netlist",
+        meta:{
+            title:"网络列表"
+        }
     },
     {
         path:"/netcreate",
         component:()=>import("@/views/netmanage/NetCreate.vue"),
-        name:"netcreate"
+        name:"netcreate",
+        meta:{
+            title:"网络创建"
+        }
     },
     // 设备管理路由
     {
         path:"/switchlist",
         component:()=>import("@/views/devicemanage/SwitchList.vue"),
-        name:"switchlist"
+        name:"switchlist",
+        meta:{
+            title:"交换机列表"
+        }
     },
     {
         path:"/hostlist",
         component:()=>import("@/views/devicemanage/HostList.vue"),
-        name:"hostlist"
+        name:"hostlist",
+        meta:{
+            title:"主机列表"
+        }
     },
     {
         path:"/linklist",
         component:()=>import("@/views/devicemanage/LinkList.vue"),
-        name:"linklist"
+        name:"linklist",
+        meta:{
+            title:"链路列表"
+        }
     },
     // 数据统计信息
     {
         path:"/delayinfo",
         component:()=>import("@/views/datamonitor/DelayInfo.vue"),
-        name:"delayinfo"
+        name:"delayinfo",
+        meta:{
+            title:"时延信息"
+        }
     }
 ]
 

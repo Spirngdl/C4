@@ -1,9 +1,30 @@
 <template>
-    <div id="mountNode"></div>
+    <div class="network-layout">
+      <div id="mountNode"></div>  
+      <div class="network-tools">
+          <el-form :inline="true" :model="pc" class="demo-form-inline">
+              <el-form-item label="主机端口号：">
+                <el-input v-model="pc.port" placeholder="p1" />
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="addHost">添加主机</el-button>
+              </el-form-item>
+           </el-form>
+            <el-form :inline="true" :model="Switch" class="demo-form-inline">
+              <el-form-item label="交换机端口号：">
+                <el-input v-model="Switch.port" placeholder="s1" />
+              </el-form-item>
+              <el-form-item>
+                <el-button type="primary" @click="addSwitch">添加主机</el-button>
+              </el-form-item>
+           </el-form>
+      </div>
+    </div>
+      
 </template>
 
 <script setup lang="ts">
-import {onMounted} from "vue"
+import {onMounted, reactive} from "vue"
 import G6 from "@antv/g6"
 
 // 导入数据
@@ -47,7 +68,8 @@ const modes ={
       }
   ]
 }
-// 使用G6获取container时要确保该DON元素已经渲染完毕了，因此需要在生命周期函数中实现
+let Graph:any;
+// 使用G6获取container时要确保该DON元素已经渲染完毕了，因此需要在生命周期函数中实现 
 onMounted(()=>{ 
     const graph = new G6.Graph({
       container:'mountNode',
@@ -65,14 +87,24 @@ onMounted(()=>{
     graph.data(topoData); 
     graph.render(); 
 
-    // 事件监听
-    graph.on('click',(e)=>{
-      // downSwitchport(graph,'switch','s2')
-      // addNode(graph,'pc',1)
-      // addEdge(graph,'host1','switch')
-      packetTransmission(graph)
-    })
+    // 导出Graph
+    Graph =graph;
 })
+
+let pc =reactive({
+  port:""
+})
+let Switch =reactive({
+  port:""
+})
+
+const addHost =()=>{
+  addNode(Graph,'pc',1)
+}
+
+const addSwitch =()=>{
+  addNode(Graph,'switch',1)
+}
 </script>
 
 <style>
@@ -85,4 +117,7 @@ onMounted(()=>{
   padding: 10px 8px;
   box-shadow: rgb(174, 174, 174) 0px 0px 10px;
 }
+/* .network-layout {
+  width:100%;
+} */
 </style>
