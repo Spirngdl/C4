@@ -70,7 +70,6 @@ const addTab =()=>{
         path: path,
         title: meta.title as string
     }
-    console.log(route)
     // 跟路由不能被添加，重复路由不能被添加
     if (path=='/') return
     let isExit =0;

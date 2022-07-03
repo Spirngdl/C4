@@ -30,4 +30,10 @@ import Tabs from "@/components/Dashboard/Tabs.vue"
 .main-content {
   height: calc(100vh - 60px);
 }
+
+/* 全局样式 */
+.el-form-item__content {
+  display: flex;
+  flex-wrap: nowrap;
+}
 </style>
