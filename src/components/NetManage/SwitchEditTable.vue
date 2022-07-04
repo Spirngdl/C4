@@ -2,7 +2,7 @@
     <div class="edit-table-layout">
         <el-form
            ref="ruleFormRef"
-           :model="switchForm"
+           :model="switchInfo"
            status-icon
            :rules="rules"
            label-width="120px"
@@ -10,19 +10,26 @@
           label-position="left"
          >
              <el-form-item label="交换机ID" prop="id">
-               <el-input v-model="switchForm.id" autocomplete="off" />
+               <el-input v-model="switchInfo.id" autocomplete="off" />
              </el-form-item>
-             <template v-for="(port,index) in switchForm.ports">
-                <el-form-item :label="'交换机PORT'+index" prop="port">
-                    <el-input v-model="port.port" autocomplete="off" />
-                    <el-button type="primary" @click="submitForm(ruleFormRef)"
-                      >删除端口</el-button>
+              <el-form-item label="交换机PORT0" prop="port0">
+                    <el-input v-model="switchInfo.port0" autocomplete="off" />
+                    <!-- <el-button type="primary" @click="submitForm(ruleFormRef)"
+                      >删除端口</el-button> -->
                 </el-form-item>
-             </template>
-             <el-form-item>
+               <el-form-item label="交换机PORT1" prop="port1">
+                    <el-input v-model="switchInfo.port1" autocomplete="off" />
+                </el-form-item>
+                 <el-form-item label="交换机PORT2" prop="port2">
+                    <el-input v-model="switchInfo.port2" autocomplete="off" />
+                </el-form-item>
+                 <el-form-item label="交换机PORT3" prop="port3">
+                    <el-input v-model="switchInfo.port3" autocomplete="off" />
+                </el-form-item>
+             <!-- <el-form-item>
                 <el-button @click="resetForm(ruleFormRef)">添加端口</el-button>
-              </el-form-item>
-             <el-form-item>
+              </el-form-item> -->
+             <el-form-item> 
                 <el-button type="primary" @click="submitForm(ruleFormRef)"
                   >提交</el-button
                 >
@@ -34,17 +41,16 @@
 
 <script setup lang="ts">
 // 该组件用于网络元素编辑
-import { reactive, ref } from 'vue'
+import { reactive, ref,computed } from 'vue'
 import type { FormInstance } from 'element-plus'
+import {useStore} from "@/store/index"
 
+const store =useStore()
 const ruleFormRef = ref<FormInstance>()
 
-//交换机元素 
-const switchForm = reactive({
-  id: '',
-  ports: [{
-    port:""
-  }]
+// 获取指定元素列表的最后一个元素
+let switchInfo =computed(()=>{
+  return store.getters.getElementList('switches')
 })
 
 const checkAge = (rule: any, value: any, callback: any) => {

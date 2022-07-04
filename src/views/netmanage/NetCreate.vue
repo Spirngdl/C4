@@ -11,9 +11,9 @@
             </el-form>
         </section>
         <section class="content">
-            <NetCreateTable :network="network" :element="'hosts'"></NetCreateTable>
-            <NetCreateTable :network="network" :element="'switches'"></NetCreateTable>
-            <NetCreateTable :network="network" :element="'links'"></NetCreateTable>
+            <NetCreateTable :element="'hosts'"></NetCreateTable>
+            <NetCreateTable :element="'switches'"></NetCreateTable>
+            <NetCreateTable :element="'links'"></NetCreateTable>
         </section>
         <section class="footer" style="display: flex; justify-content: center;">
             <el-button type="primary" size="default" @click="createNetwork">创建网络</el-button>
@@ -24,17 +24,17 @@
 <script setup lang="ts">
 import NetCreateTable from '@/components/NetManage/NetCreateTable.vue';
 import {NetworkType} from "@/object/network/network"
+import { reactive,computed } from 'vue';
 
-// 网络topo的数据结构
-let network:NetworkType ={
-    id:'',
-    remark:"",
-    hosts:[],
-    switches:[],
-    links:[]
-}
+// 引入store
+import {useStore} from "@/store/index"
+const store =useStore();
+
+let network =computed(()=>{
+    return store.getters.getNetwork('new');
+})
 const createNetwork =()=>{
-    // 添加到全局变量中
+    // store添加到state中去
 
 }
 

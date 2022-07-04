@@ -2,9 +2,9 @@
     <div class="net-element">
         <el-tag class="ml-2" type="success">{{tableField[element].flag}}</el-tag>
         <div class="net-element-table">
-            <el-table :data="tableData" style="width: 100%" max-height="250">
-                <template v-for="field in tableField[element].field">
-                     <el-table-column :prop="field" :label="field" />
+            <el-table :data="network[element]" style="width: 100%" max-height="250">
+                <template v-for="(field,index) in tableField[element].field">
+                     <el-table-column :prop="tableField[element]['props'][index]" :label="field" />
                 </template>
                 <el-table-column fixed="right" label="更多操作" width="240">
                   <template #default="scope">
@@ -24,7 +24,7 @@
                   </template>
                 </el-table-column>
             </el-table>
-            <el-button class="mt-4" style="width: 100%" @click="visible_bottom=true">{{tableField[element].add}}</el-button>
+            <el-button class="mt-4" style="width: 100%" @click="onAddItem">{{tableField[element].add}}</el-button>
             <el-dialog
               v-model="visible_bottom"
               title="Tips"
@@ -32,13 +32,11 @@
               :before-close="handleClose"
             >
               <!-- 差一个组件（动态的） -->
-              <component :is="whichComponent[element]" />
+              <component :is="whichComponent[element]"/>
               <template #footer>
                 <span class="dialog-footer">
-                  <el-button @click="visible_bottom = false">Cancel</el-button>
                   <el-button type="primary" @click="visible_bottom = false"
-                    >Confirm</el-button
-                  >
+                    >关闭弹窗</el-button>
                 </span>
               </template>
             </el-dialog>
@@ -52,11 +50,17 @@ import SwitchEditTable from "./SwitchEditTable.vue"
 import HostEditTable from './HostEditTable.vue';
 import {tableField,NetworkType} from "@/object/network/network"
 
-import { ref } from 'vue'
+import {useStore} from "@/store/index"
+
+import { computed, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
+const store =useStore();
+
+let network =computed(()=>{
+    return store.getters.getNetwork('new');
+})
 // 接收参数
 const props =defineProps<{
-  network:NetworkType,
   element:keyof typeof tableField
 }>()
 
@@ -66,28 +70,48 @@ const whichComponent ={
   switches:SwitchEditTable,
   links:LinkEditTable
 }
-
+// 判断应该添加哪个结点
+const whichNode ={
+  hosts:{
+    id:'',
+    ip:'',
+    port:''
+  },
+  switches:{
+   id:"",
+   port0:'',
+   port1:null,
+   port2:null,
+   port3:null
+  },
+  links:{
+    id:'',
+    bandWidth:0,
+   end1node:'',
+    end1port:'',
+    end2node:'',
+    end2port:''
+  }
+}
 let visible_bottom =ref(false)
 let visible_table =ref(false)
 
-const tableData = ref([
-  {
-    "主机ID": 'host-1',
-    "主机IP": '192.168.1.1/24',
-    "主机PORT": 'h1-01',
-  }
-])
 
 const deleteRow = (index: number) => {
-  tableData.value.splice(index, 1)
+  // props.network[props.element].splice(index, 1)
 }
 
 const onAddItem = () => {
-  tableData.value.push({
-    "主机ID": 'host-1',
-    "主机IP": '192.168.1.1/24',
-    "主机PORT": 'h1-01',
+  let element =props.element
+  let elementObj =JSON.parse(JSON.stringify(whichNode[props.element]))
+  // 新增结点（空结点）
+  store.commit('addElement',{
+    id:"new",
+    element,
+    elementObj
   })
+  // 打开弹窗
+  visible_bottom.value=true
 }
 
 const handleClose = (done: () => void) => {
@@ -99,9 +123,6 @@ const handleClose = (done: () => void) => {
       // catch error
     })
 }
-
-
-
 </script>
 
 <style scoped>

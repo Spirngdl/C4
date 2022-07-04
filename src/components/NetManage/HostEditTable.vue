@@ -2,7 +2,7 @@
     <div class="edit-table-layout">
         <el-form
            ref="ruleFormRef"
-           :model="hostForm"
+           :model="hostInfo"
            status-icon
            :rules="rules"
            label-width="120px"
@@ -10,13 +10,13 @@
            class="demo-ruleForm"
          >
           <el-form-item label="主机ID" prop="id">
-             <el-input v-model="hostForm.id" autocomplete="off" />
+             <el-input v-model="hostInfo.id" autocomplete="off" />
            </el-form-item>
            <el-form-item label="主机IP" prop="ip">
-             <el-input v-model="hostForm.ip" autocomplete="off"/>
+             <el-input v-model="hostInfo.ip" autocomplete="off"/>
            </el-form-item>
            <el-form-item label="主机PORT" prop="port">
-             <el-input v-model.number="hostForm.port" />
+             <el-input v-model="hostInfo.port" />
            </el-form-item>
            <el-form-item>
              <el-button type="primary" @click="submitForm(ruleFormRef)"
@@ -30,21 +30,21 @@
 
 <script setup lang="ts">
 // 该组件用于网络元素编辑
-import { reactive, ref } from 'vue'
+import { reactive, ref,computed } from 'vue'
 import type { FormInstance } from 'element-plus'
+import { store } from '@/store';
 
-// 表单数据
-const hostForm = reactive({
-  id: '',
-  ip: '',
-  port: '',
+
+// 获取指定元素列表的最后一个元素
+let hostInfo =computed(()=>{
+  return store.getters.getElementList('hosts')
 })
 
 const ruleFormRef = ref<FormInstance>() //获取form组件
 
 const validatePort = (rule: any, value: any, callback: any) => {
-  if (!value) {
-    return callback(new Error('Please input the PORT'))
+  if (value === '') {
+    callback(new Error('Please input the PORT'))
   }
 }
 
