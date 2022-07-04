@@ -21,7 +21,8 @@
     // 配置别名
     "baseUrl": ".",
     "paths": {
-      "@/*":["src/*"]
+      "@/*":["src/*"],
+      "*":["@types/*"]
     },
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],

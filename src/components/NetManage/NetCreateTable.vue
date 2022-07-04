@@ -80,9 +80,9 @@ const whichNode ={
   switches:{
    id:"",
    port0:'',
-   port1:null,
-   port2:null,
-   port3:null
+   port1:'',
+   port2:'',
+   port3:''
   },
   links:{
     id:'',

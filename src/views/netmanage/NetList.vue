@@ -42,8 +42,10 @@
 </template>
 
 <script setup lang="ts">
+import {computed, reactive, watch} from "vue"
 import { MostlyCloudy } from '@element-plus/icons-vue'
 import {useRouter} from "vue-router"
+import {useStore} from "@/store/index"
 
 interface NetType {
   id:string,
@@ -60,19 +62,38 @@ const netVisual = (index: number, row: NetType) => {
 const netDelete = (index: number, row: NetType) => {
   console.log(index, row)
 }
-
-const netList: NetType[] = [
-  {
-    id:'20220624',
-    hostNum:3,
-    switchNum:1,
-    remark:"最简单的局域网"
+const store =useStore();
+const networks =computed(()=>{
+  return store.getters['getNetworks']
+})
+let netList:NetType[] =[];
+const generateNetList=()=>{
+  netList.length=0; // 先清空
+  for (let key in networks.value){
+    if (key!='new'){
+      netList.push({
+        id:networks.value[key].id,
+        remark:networks.value[key].remark,
+        hostNum:networks.value[key].hosts.length,
+        switchNum:networks.value[key].switches.length,
+      })
+    }
   }
-]
+}
+
+generateNetList()
+watch(()=>store.getters['getNetworks'],()=>{
+  console.log("changed")
+  generateNetList()
+},{deep:true})
+
 </script>
 
 <style scoped>
 .netlist-layout{
-    margin: 20px 0 0 20px;
+    margin: 20px 20px 0 20px;
+    padding: 10px 0 10px 10px;
+    border-radius: 10px;
+    border: 1px solid rgb(151, 145, 145);
 }
 </style>

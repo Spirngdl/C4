@@ -8,6 +8,17 @@
                 <el-form-item label="备注信息：">
                   <el-input v-model="network.remark" />
                 </el-form-item>
+                <el-form-item>
+                    <el-upload
+                       v-model:file-list="fileList"
+                       class="upload-demo"
+                       action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15"
+                       multiple
+                       :limit="1"
+                     >
+                        <el-button type="primary">导入配置文件</el-button>
+                    </el-upload>
+                </el-form-item>
             </el-form>
         </section>
         <section class="content">
@@ -24,7 +35,9 @@
 <script setup lang="ts">
 import NetCreateTable from '@/components/NetManage/NetCreateTable.vue';
 import {NetworkType} from "@/object/network/network"
-import { reactive,computed } from 'vue';
+import { reactive,computed,ref } from 'vue';
+
+import type { UploadProps, UploadUserFile } from 'element-plus'
 
 // 引入store
 import {useStore} from "@/store/index"
@@ -35,8 +48,13 @@ let network =computed(()=>{
 })
 const createNetwork =()=>{
     // store添加到state中去
-
+    store.commit('addNetwork',{
+        id:network.value.id,
+        network:network.value
+    })
 }
+
+const fileList = ref<UploadUserFile[]>([])
 
 </script>
 
