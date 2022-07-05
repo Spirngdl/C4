@@ -32,13 +32,30 @@
         </section>
         <section class="content">
             <section class="log">
-                 <el-scrollbar height="400px" ref="scrollList" @scroll="scroll">
-                      <p v-for="item in 20" :key="item" class="scrollbar-demo-item">
-                        {{ item }}
+                <div class="scroll-header">
+                    <span>序号</span>
+                    <span>重要事件</span>
+                    <span>发生时间</span>
+                    <span>标签</span>
+                </div>
+                 <el-scrollbar height="650px" ref="scrollList" @scroll="scroll">
+                      <p v-for="(item,index) in things" :key="item.time" class="scrollbar-demo-item" >
+                        <span>{{"#"+index}}</span>
+                        <span>{{item.descrip}}</span>
+                        <span>{{item.time}}</span>
+                        <el-tag class="ml-2" type="success">{{item.remark}}</el-tag>
                       </p>
                 </el-scrollbar>
             </section>
-            <section class="state"></section>
+            <section class="state">
+                <div class="state-header">设备上线状态</div>
+                <div class="item">
+                    <div><span>ONOS CONTROLLER</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;"/></div>
+                    <div><span>ROUTES</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;" /></div>
+                    <div><span>SWITCHES</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;" /></div>
+                    <div><span>HOSTS</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;"  /></div>
+                </div>
+            </section>
         </section>
         
     </div>
@@ -47,6 +64,7 @@
 <script setup lang="ts">
 import {onMounted, ref} from "vue"
 import { ElScrollbar } from 'element-plus'
+import things from "@/object/data/dashboardScrollList"
 
 let date =ref('');
 const value =ref(0)
@@ -72,7 +90,7 @@ const scroll = ({ scrollTop }:any) => {
 let scrollList =ref<InstanceType<typeof ElScrollbar>>()
 onMounted(()=>{ 
     setInterval(()=>{
-        if (value.value>=400) value.value=0;
+        if (value.value>=600) value.value=0;
         value.value +=1;
         scrollList.value!.setScrollTop(value.value)
     },25)
@@ -113,19 +131,57 @@ img{
     justify-content: space-between;
     margin: 20px 40px 0 20px;
 }
-.content>.log{
-    width:50%;
-}
 
+.scroll-header{
+    display:flex;
+    justify-content: space-between;
+    padding: 0 10px 0 10px;
+    font-size: large;
+    font-weight: 600;
+}
+.content>.log,.state{
+    width:50%;
+    border-radius: 10px;
+    border: 1px solid rgb(202, 191, 191);
+    box-shadow: 1px 5px 1px rgb(202, 191, 191);
+}
+.state{
+    margin-left: 40px;
+}
+.state>.state-header{
+    display: flex;
+    justify-content: center;
+    margin:50px 0 20px 0;
+    font-size: large;
+    font-weight: 600;
+}
+.state>.item>div>span{
+    width:200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.state>.item>div{
+    display: flex;
+    width:80%;
+    margin: 40px 0 30px 0;
+}
+.state>.item{
+    width: 100%;
+   display: flex;
+   flex-direction: column;
+}
 .scrollbar-demo-item {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 50px;
   margin: 10px;
   text-align: center;
   border-radius: 4px;
-  background: var(--el-color-primary-light-9);
-  color: var(--el-color-primary);
+}
+
+.scrollbar-demo-item>span:nth-of-type(2){
+    width:35%
 }
 </style>
