@@ -319,7 +319,75 @@ const additionalInfo ={
             },
         },
         links:{
-
+            // 每条链路的时延信息
+            'link01':{
+                delayTime:4,
+                payload:1544,
+            },
+            'link02':{
+                delayTime:2,
+                payload:1936,
+            },
+            'link03':{
+                delayTime:3,
+                payload:1720,
+            },
+            'link04':{
+                delayTime:2,
+                payload:1936,
+            },
+            'link05':{
+                delayTime:2,
+                payload:1552,
+            },
+            'link06':{
+                delayTime:2,
+                payload:1720,
+            },
+            'link07':{
+                delayTime:5,
+                payload:1544,
+            },
+            'link08':{
+                delayTime:2,
+                payload:1552,
+            },
+            'link09':{
+                delayTime:5,
+                payload:2343,
+            },
+            'link10':{
+                delayTime:6,
+                payload:2196,
+            },
+            'link11':{
+                delayTime:3,
+                payload:2531,
+            },
+            'link12':{
+                delayTime:4,
+                payload:3011,
+            },
+            'link13':{
+                delayTime:14,
+                payload:2734,
+            },
+            'link14':{
+                delayTime:3,
+                payload:2053,
+            },
+            'link15':{
+                delayTime:4,
+                payload:2341,
+            },
+            'link16':{
+                delayTime:7,
+                payload:2831,
+            },
+            'link17':{
+                delayTime:4,
+                payload:1200,
+            }
         }
     }
 }
