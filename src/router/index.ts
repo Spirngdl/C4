@@ -68,6 +68,23 @@ const routes:Array<RouteRecordRaw> =[
             title:"链路列表"
         }
     },
+    // 流表管理
+    {
+        path:"/flowTableDump",
+        component:()=>import("@/views/flowManage/FlowTableDump.vue"),
+        name:"流表下发",
+        meta:{
+            title:'流表下发'
+        }
+    },
+    {
+        path:"/flowTableList",
+        component:()=>import("@/views/flowManage/FlowTableList.vue"),
+        name:"流表列表",
+        meta:{
+            title:'流表列表'
+        }
+    },
     // 数据统计信息
     {
         path:"/delayinfo",

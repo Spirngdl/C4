@@ -94,6 +94,31 @@ let menuList =reactive([
         ]
     },
     {
+        path:"/flowManage",
+        meta:{
+            title:"流表管理",
+            icon:"Box",
+        },
+        children:[
+            {
+                path:"/flowTableDump",
+                meta:{
+                    title:"流表下发",
+                    icon:"Download"
+                },
+                children:[]
+            },
+            {
+                path:"/flowTableList",
+                meta:{
+                    title:"流表列表",
+                    icon:"Files"
+                },
+                children:[]
+            }
+        ]
+    },
+    {
         path:"/datamonitor",
         meta:{
             title:"流量监控",
