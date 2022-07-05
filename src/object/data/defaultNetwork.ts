@@ -175,19 +175,31 @@ const additionalInfo ={
         switches:{
             'device:leaf1':{
                 sid:"3:101:2::", //SRV6中使用
-                mac:"00:aa:00:00:00:01" //用于标识交换设备
+                mac:"00:aa:00:00:00:01", //用于标识交换设备
+                manage:"grpc://mininet:50001?device_id=1",
+                driver:"stratum-bmv2",
+                isSpine:false
             },
             'device:leaf2':{
                 sid:"3:102:2::", 
-                mac:"00:aa:00:00:00:02" 
+                mac:"00:aa:00:00:00:02",
+                manage:"grpc://mininet:50002?device_id=1",
+                driver:"stratum-bmv2",
+                isSpine:false 
             },
             'device:spine1':{
                 sid:"3:201:2::", 
-                mac:"00:bb:00:00:00:01" 
+                mac:"00:bb:00:00:00:01",
+                manage:"grpc://mininet:50003?device_id=1",
+                driver:"stratum-bmv2",
+                isSpine:true 
             },
             'device:spine2':{
                 sid:"3:202:2::", 
-                mac:"00:bb:00:00:00:02" 
+                mac:"00:bb:00:00:00:02",
+                manage:"grpc://mininet:50004?device_id=1",
+                driver:"stratum-bmv2",
+                isSpine:true
             },
         },
         links:{
@@ -196,4 +208,4 @@ const additionalInfo ={
     }
 }
 
-export {network}
+export {network,additionalInfo}

@@ -2,10 +2,14 @@ import { InjectionKey } from 'vue'
 import { createStore, useStore as baseUseStore, Store } from 'vuex'
 
 import {NetworkType} from "@/object/network/network"
+import {network,additionalInfo} from "@/object/data/defaultNetwork"
 
 export interface State{
   networks:{
     [index:string]:NetworkType
+  },
+  addtionalInfo:{
+    [index:string]:any;
   }
 }
 
@@ -63,6 +67,10 @@ export const getters ={
     getNetwork:(state:State)=>(id:string)=>{
         return state.networks[id]
     },
+    // 获取指定id的网络额外信息
+    getAdditionInfo:(state:State)=>(id:string)=>{
+      return state.addtionalInfo[id]
+    },
     getElementList:(state:State)=>(element:string)=>{
       // 长度
       const length =(state.networks['new'][element as keyof NetworkType] as Array<any>).length
@@ -82,7 +90,11 @@ export const store = createStore<State>({
         'hosts':[],
         'switches':[],
         'links':[]
-      }
+      },
+      '0001':network
+    },
+    addtionalInfo:{
+      '0001':additionalInfo
     }
   },
   getters:getters,
