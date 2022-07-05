@@ -27,11 +27,4 @@ const generateSwitchList =(id:string)=>{
     return table;
 }
 
-
-
-
-
-
-
-
-export {generateSwitchList}
+export { generateSwitchList }

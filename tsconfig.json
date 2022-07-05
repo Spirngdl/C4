@@ -21,9 +21,8 @@
     // 配置别名
     "baseUrl": ".",
     "paths": {
-      "@/*":["src/*"],
-      "*":["@types/*"]
-    },
+      "@/*":["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

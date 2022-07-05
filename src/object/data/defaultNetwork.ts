@@ -34,6 +34,26 @@ const network:NetworkType ={
             ip:"2001:2:4::1/64", 
             port:"00:00:00:00:00:40" 
         },
+        {
+            id:"h5", 
+            ip:"2001:3:1::5/64", 
+            port:"00:00:00:00:00:50" 
+        },
+        {
+            id:"h6", 
+            ip:"2001:3:1::6/64", 
+            port:"00:00:00:00:00:60" 
+        },
+        {
+            id:"h7", 
+            ip:"2001:4:1::7/64", 
+            port:"00:00:00:00:00:70" 
+        },
+        {
+            id:"h8", 
+            ip:"2001:4:1::8/64", 
+            port:"00:00:00:00:00:80" 
+        },
     ],
     switches:[
         {
@@ -47,6 +67,20 @@ const network:NetworkType ={
             id:'device:leaf2',
             port0:'2001:2:3::ff/64',
             port1:'2001:2:4::ff/64',
+            port2:"",
+            port3:""
+        },
+        {
+            id:'device:leaf3',
+            port0:'2001:3:1::ff/64',
+            port1:'2001:3:2::ff/64',
+            port2:"",
+            port3:""
+        },
+        {
+            id:'device:leaf4',
+            port0:'2001:4:1::ff/64',
+            port1:'2001:4:2::ff/64',
             port2:"",
             port3:""
         },
@@ -145,7 +179,55 @@ const network:NetworkType ={
             end1port:"",
             end2node:"device:leaf2",
             end2port:""
-        }
+        },
+        {
+            id:"link11", 
+            bandWidth:100, 
+            end1node:"h5", 
+            end1port:"",
+            end2node:"device:leaf3",
+            end2port:""
+        },
+        {
+            id:"link12", 
+            bandWidth:100, 
+            end1node:"h6", 
+            end1port:"",
+            end2node:"device:leaf3",
+            end2port:""
+        },
+        {
+            id:"link13", 
+            bandWidth:100, 
+            end1node:"h7", 
+            end1port:"",
+            end2node:"device:leaf4",
+            end2port:""
+        },
+        {
+            id:"link14", 
+            bandWidth:100, 
+            end1node:"h8", 
+            end1port:"",
+            end2node:"device:leaf4",
+            end2port:""
+        },
+        {
+            id:"link15", 
+            bandWidth:100, 
+            end1node:"device:spine1", 
+            end1port:"",
+            end2node:"device:leaf3",
+            end2port:""
+        },
+        {
+            id:"link16", 
+            bandWidth:100, 
+            end1node:"device:spine2", 
+            end1port:"",
+            end2node:"device:leaf4",
+            end2port:""
+        },
     ]
 }
 
@@ -171,6 +253,18 @@ const additionalInfo ={
             'h4':{
                 gw:"2001:2:4::ff"
             },
+            'h5':{
+                gw:"2001:3:1::ff"
+            },
+            'h6':{
+                gw:"2001:3:1::ff"
+            },
+            'h7':{
+                gw:"2001:4:1::ff"
+            },
+            'h8':{
+                gw:"2001:4:1::ff"
+            },
         },
         switches:{
             'device:leaf1':{
@@ -184,6 +278,20 @@ const additionalInfo ={
                 sid:"3:102:2::", 
                 mac:"00:aa:00:00:00:02",
                 manage:"grpc://mininet:50002?device_id=1",
+                driver:"stratum-bmv2",
+                isSpine:false 
+            },
+            'device:leaf3':{
+                sid:"3:301:2::", 
+                mac:"00:aa:00:00:00:03",
+                manage:"grpc://mininet:50003?device_id=1",
+                driver:"stratum-bmv2",
+                isSpine:false 
+            },
+            'device:leaf4':{
+                sid:"3:302:2::", 
+                mac:"00:aa:00:00:00:04",
+                manage:"grpc://mininet:50004?device_id=1",
                 driver:"stratum-bmv2",
                 isSpine:false 
             },

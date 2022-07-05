@@ -71,7 +71,7 @@ const routes:Array<RouteRecordRaw> =[
     // 流表管理
     {
         path:"/flowTableDump",
-        component:()=>import("@/views/flowManage/FlowTableDump.vue"),
+        component:()=>import("@/views/flowmanage/FlowDump.vue"),
         name:"流表下发",
         meta:{
             title:'流表下发'
@@ -79,7 +79,7 @@ const routes:Array<RouteRecordRaw> =[
     },
     {
         path:"/flowTableList",
-        component:()=>import("@/views/flowManage/FlowTableList.vue"),
+        component:()=>import("@/views/flowmanage/FlowList.vue"),
         name:"流表列表",
         meta:{
             title:'流表列表'
