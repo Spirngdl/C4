@@ -228,6 +228,14 @@ const network:NetworkType ={
             end2node:"device:leaf4",
             end2port:""
         },
+        {
+            id:"link17", 
+            bandWidth:100, 
+            end1node:"device:spine2", 
+            end1port:"",
+            end2node:"device:spine1",
+            end2port:""
+        },
     ]
 }
 

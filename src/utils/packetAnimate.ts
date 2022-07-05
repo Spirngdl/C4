@@ -1,6 +1,10 @@
 // 实现数据报传输动画
 import G6 from "@antv/g6"
-import {topoData} from "@/utils/topoData"
+
+let topoData:any ={
+  nodes:[],
+  edges:[]
+}
 
 function registerAnimate(flag:number){
     G6.registerEdge(
@@ -43,11 +47,15 @@ function registerAnimate(flag:number){
         'line'
     )
 }
+
+
+
+
 // 给定边和存在边的顺序，相同返回0，不同返回1（用于动画效果传输顺序的正确性）
 function getEdgeInfo(path:Array<string>){
   let ans=0;
   let id:string ='';
-  topoData.edges.forEach(item=>{
+  topoData.edges.forEach((item:any)=>{
     if (item.source==path[0] && item.target==path[1]){
       ans =0;
       id =item.id;

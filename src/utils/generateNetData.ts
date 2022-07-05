@@ -36,7 +36,7 @@ const generateNetData =(network:NetworkType)=>{
     network.switches.forEach(Switch=>{
         result.nodes.push({
             id:'switch'+Switch.id,
-            label:"switch",
+            label:"switch"+Switch.id,
             type:"image",
             img:new URL('../assets/network/switch.png',import.meta.url).href,
             size:[45,30],
