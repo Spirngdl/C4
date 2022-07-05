@@ -1,34 +1,25 @@
 <template>
     <div class="network-layout">
       <div id="mountNode"></div>  
-      <div class="network-tools">
-          <el-form :inline="true" :model="pc" class="demo-form-inline">
-              <el-form-item label="主机端口号：">
-                <el-input v-model="pc.port" placeholder="p1" />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="addHost">添加主机</el-button>
-              </el-form-item>
-           </el-form>
-            <el-form :inline="true" :model="Switch" class="demo-form-inline">
-              <el-form-item label="交换机端口号：">
-                <el-input v-model="Switch.port" placeholder="s1" />
-              </el-form-item>
-              <el-form-item>
-                <el-button type="primary" @click="addSwitch">添加主机</el-button>
-              </el-form-item>
-           </el-form>
-      </div>
+      <div class="network-tools"></div>
+        <el-dialog
+           v-model="dialogVisible"
+           title="主机桌面"
+           width="30%"
+         >
+           <span>test</span>
+        </el-dialog>
     </div>
       
 </template>
 
 <script setup lang="ts">
-import {onMounted, reactive} from "vue"
+import {onMounted, reactive,ref} from "vue"
 import G6 from "@antv/g6"
 
 // 导入数据
 import {topoData} from "@/utils/topoData"
+import {G6Network} from "@/utils/generateNetData"
 
 import {downSwitchport} from "@/utils/portOperate"
 import {addNode} from "@/utils/nodeOperate"
@@ -38,7 +29,7 @@ import {packetTransmission} from "@/utils/packetAnimate"
 const layout ={
   type:'radial',
   preventOverlap:true,
-  linkDistance:100
+  linkDistance:250
 }
 // modes配置
 const modes ={
@@ -68,6 +59,8 @@ const modes ={
       }
   ]
 }
+
+console.log(G6Network)
 let Graph:any;
 // 使用G6获取container时要确保该DON元素已经渲染完毕了，因此需要在生命周期函数中实现 
 onMounted(()=>{ 
@@ -84,19 +77,20 @@ onMounted(()=>{
         }
     });
 
-    graph.data(topoData); 
+    graph.data(G6Network as any); 
     graph.render(); 
 
     // 导出Graph
     Graph =graph;
+    graph.on("node:click",(ev:any)=>{
+      const node =ev.item as any;
+      if (node._cfg.id.indexOf('host')!=-1){
+        dialogVisible.value =true
+      }
+    })
 })
-
-let pc =reactive({
-  port:""
-})
-let Switch =reactive({
-  port:""
-})
+// 点击主机出现弹窗
+const dialogVisible =ref(false)
 
 const addHost =()=>{
   addNode(Graph,'pc',1)
@@ -117,7 +111,10 @@ const addSwitch =()=>{
   padding: 10px 8px;
   box-shadow: rgb(174, 174, 174) 0px 0px 10px;
 }
-/* .network-layout {
-  width:100%;
-} */
+#mountNode {
+  margin: 10px 20px  10px;
+  border-radius: 10px;
+  border: 1px solid rgb(188, 183, 183);
+  box-shadow: 1px 5px 1px rgb(188, 183, 183);
+}
 </style>

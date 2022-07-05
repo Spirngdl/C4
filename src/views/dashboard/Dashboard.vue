@@ -62,7 +62,7 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue"
+import {onMounted, onUnmounted, reactive, ref} from "vue"
 import { ElScrollbar } from 'element-plus'
 import things from "@/object/data/dashboardScrollList"
 
@@ -88,16 +88,29 @@ const scroll = ({ scrollTop }:any) => {
 // 实现自动滚动
 // 获取列表元素
 let scrollList =ref<InstanceType<typeof ElScrollbar>>()
+
+// 声明定时器
+const state:any =reactive({
+    AutoScroll:null,
+    DisplayDate:null
+})
+
 onMounted(()=>{ 
-    setInterval(()=>{
+    state.AutoScroll =setInterval(()=>{
         if (value.value>=600) value.value=0;
         value.value +=1;
         scrollList.value!.setScrollTop(value.value)
     },25)
     // 设置一个定时器，不断获取数据
-    setInterval(()=>{
+    state.DisplayDate = setInterval(()=>{
         date.value =getDistanceSpecifiedTime('2022/06/20 02:02:00')
     },1000)
+})
+
+// 组件销毁时移除定时器
+onUnmounted(()=>{
+    clearInterval(state.AutoScroll)
+    clearInterval(state.DisplayDate)
 })
 
 </script>

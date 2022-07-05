@@ -41,9 +41,6 @@ const topoData = {
           type:"image",
           img:new URL('../assets/network/switch.png',import.meta.url).href,
           size:[45,30],
-          anchorPoints:[
-            [1,1],[0,0],[0,1]
-          ],
           clipCfg:{
             show:true,
             type:'rect',
