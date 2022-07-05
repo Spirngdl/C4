@@ -93,7 +93,23 @@ const routes:Array<RouteRecordRaw> =[
         meta:{
             title:"时延信息"
         }
-    }
+    },
+    {
+        path:"/bandwidth",
+        component:()=>import("@/views/datamonitor/BandWidth.vue"),
+        name:"bandWidth",
+        meta:{
+            title:"带宽信息"
+        }
+    },
+    {
+        path:"/packetInfo",
+        component:()=>import("@/views/datamonitor/PacketInfo.vue"),
+        name:"packetInfo",
+        meta:{
+            title:"流量信息"
+        }
+    },
 ]
 
 

@@ -132,6 +132,22 @@ let menuList =reactive([
                     icon:"Timer"
                 },
                 children:[]
+            },
+            {
+                path:"/bandwidth",
+                meta:{
+                    title:"带宽信息",
+                    icon:"ScaleToOriginal"
+                },
+                children:[]
+            },
+            {
+                path:"/packetInfo",
+                meta:{
+                    title:"流量信息",
+                    icon:"TrendCharts"
+                },
+                children:[]
             }
         ]
     }

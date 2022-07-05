@@ -13,7 +13,7 @@ app.use(router).use(ElementPlus).use(store,key).mount('#app')
 
 // 按需获取element-plus中的图标文件，以便于动态渲染菜单列表上的图标
 import {HomeFilled,MostlyCloudy,Lightning,Plus,ShoppingBag,Platform,
-   Postcard,SetUp,TrendCharts,Timer,Box,Download,Files} 
+   Postcard,SetUp,TrendCharts,Timer,Box,Download,Files,ScaleToOriginal} 
 from "@element-plus/icons-vue"
 // 将其注册为全局组件（这样便于动态渲染）
 app.component('HomeFilled',HomeFilled)
@@ -29,3 +29,5 @@ app.component('HomeFilled',HomeFilled)
    .component("Files",Files)
    .component("Download",Download)
    .component("Box",Box)
+   .component("ScaleToOriginal",ScaleToOriginal)
+
