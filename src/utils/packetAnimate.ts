@@ -1,10 +1,7 @@
 // 实现数据报传输动画
 import G6 from "@antv/g6"
+import {G6Network} from "@/utils/generateNetData"
 
-let topoData:any ={
-  nodes:[],
-  edges:[]
-}
 
 function registerAnimate(flag:number){
     G6.registerEdge(
@@ -48,14 +45,11 @@ function registerAnimate(flag:number){
     )
 }
 
-
-
-
 // 给定边和存在边的顺序，相同返回0，不同返回1（用于动画效果传输顺序的正确性）
 function getEdgeInfo(path:Array<string>){
   let ans=0;
   let id:string ='';
-  topoData.edges.forEach((item:any)=>{
+  G6Network.edges.forEach((item:any)=>{
     if (item.source==path[0] && item.target==path[1]){
       ans =0;
       id =item.id;
@@ -67,13 +61,124 @@ function getEdgeInfo(path:Array<string>){
   return {ans,id};
 }
 
-function packetTransmission(graph:any){
+// 为了使用迪杰斯特拉算法选路，需要先转换为邻接矩阵的形式
+function translateGraph(){
+  let graph =[];
+  // 获取二维数组对应字段值
+  let nodes:Array<any> =[];
+  G6Network.nodes.forEach(node=>{
+    nodes.push(node.id)
+  })
+  for (let i=0;i<nodes.length;i++){
+    // 每一行都重新声明
+    let row:Array<any> =[]
+    for (let j=0;j<nodes.length;j++){
+      if (nodes[i]==nodes[j]) row.push(0)
+      else {
+        // 寻找是否相连
+        let {id} =getEdgeInfo([nodes[i],nodes[j]]);
+        if (id==''){
+            row.push(10000);
+        }else{
+          row.push(100)
+        }
+      }
+    }
+    graph.push(row)
+  }
+  return {graph,nodes};
+}
+
+// 迪杰斯特拉算法
+function createGraph(vertex:any, matrix:any):any {
+  const size = vertex.length;
+
+  const pathTable:any = [];
+  const weightTable:any = [];
+
+  (function init() {
+      for (let i = 0; i < size; i++) {
+          pathTable[i] = [];
+          weightTable[i] = [];
+          for (let j = 0; j < size; j++) {
+              pathTable[i][j] = j;
+              weightTable[i][j] = matrix[i][j];
+          }
+      }
+  })();
+
+  (function floyd() {
+      for (let i = 0; i < weightTable.length; i++) {
+          for (let j = 0; j < weightTable.length; j++) {
+              for (let k = 0; k < weightTable.length; k++) {
+                  if (weightTable[j][k] > weightTable[j][i] + weightTable[i][k]) {
+                      pathTable[j][k] = pathTable[j][i];
+                      weightTable[j][k] = weightTable[j][i] + weightTable[i][k];
+                  }
+              }
+          }
+      }
+  })();
+
+  function getPathByIndex(i:any, j:any) {
+      const path = [i];
+      let nxt = pathTable[i][j];
+      while (nxt !== j) {
+          path.push(nxt);
+          nxt = pathTable[nxt][j];
+      }
+      path.push(j);
+      return path;
+  }
+
+  return {
+      getPath(startVertice:any, endVertice:any) {
+          const startIndex = vertex.findIndex((v:any) => v === startVertice);
+          const endIndex = vertex.findIndex((v:any) => v === endVertice);
+
+          return {
+              path: getPathByIndex(startIndex, endIndex).map(
+                  (index) => vertex[index]
+              ),
+              weight: weightTable[startIndex][endIndex],
+          };
+      },
+  };
+}
+
+// zip函数
+function zip(arrays:any) {
+  return Array.apply(null, Array(arrays[0].length)).map(function (_, i) {
+      return arrays.map(function (array:any) {
+          return array[i]
+      })
+  });
+}
+
+const {graph,nodes} =translateGraph();
+
+function getPaths(sourceID:string,targetID:string):Array<Array<any>>{
+    let paths:Array<Array<any>> =[]
+    let result:any;
+    let graphResult =createGraph(nodes,graph);
+    result =graphResult.getPath(sourceID,targetID)
+    let resultHeader =JSON.parse(JSON.stringify(result.path))
+    let resultFooter =JSON.parse(JSON.stringify(result.path))
+    resultHeader.pop()
+    resultFooter.shift()
+    paths =zip([resultHeader,resultFooter])
+    return paths;
+}
+
+const paths =getPaths('hosth7','hosth5')
+
+function packetTransmission(graph:any,sourceID:string,targetID:string){
    // 提前创建动画边
    registerAnimate(0);
    registerAnimate(1);
   // 确定端到端通信路径
   // 生成过程就先不写了
-  let paths =[['host1','switch'],['switch','host2']]
+  let paths =getPaths(sourceID,targetID);
   // 生成相应的动画边，结束之后去除，直到所有的边动画完全实现
   paths.forEach((path,index)=>{
     let {ans,id} =getEdgeInfo(path);
@@ -92,4 +197,4 @@ function packetTransmission(graph:any){
   })
 
 }
-export {packetTransmission}
+export {packetTransmission,paths}

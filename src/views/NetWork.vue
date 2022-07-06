@@ -108,7 +108,7 @@ import {G6Network} from "@/utils/generateNetData"
 
 import {addNode} from "@/utils/nodeOperate"
 import {addEdge,delEdge} from "@/utils/edgeOperate"
-import {packetTransmission} from "@/utils/packetAnimate"
+import {packetTransmission,paths} from "@/utils/packetAnimate"
 // layout配置
 const layout ={
   type:'radial',
@@ -144,6 +144,7 @@ const modes ={
   ]
 }
 let Graph:any;
+let HostClick:any;
 // 使用G6获取container时要确保该DON元素已经渲染完毕了，因此需要在生命周期函数中实现 
 onMounted(()=>{ 
     const graph = new G6.Graph({
@@ -167,6 +168,8 @@ onMounted(()=>{
     graph.on("node:click",(ev:any)=>{
       const node =ev.item as any;
       if (node._cfg.id.indexOf('host')!=-1){
+        // 获取点击主机的id，便于后续通信
+        HostClick =node._cfg.id;
         dialogVisible.value =true
       }
     })
@@ -195,7 +198,9 @@ const newLink =()=>{
   addEdge(Graph,LinkNew.sourceId,LinkNew.targetId)
 }
 const Communicate =()=>{
-  
+  // 通信双方均已确定（HostClick和CommunicateHost.id）
+  packetTransmission(Graph,HostClick,CommunicateHost.id)
+  dialogVisible.value =false;
 }
 </script>
 
