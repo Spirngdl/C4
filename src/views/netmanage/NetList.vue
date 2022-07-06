@@ -1,6 +1,6 @@
 <template>
     <div class="netlist-layout">
-    <el-table :data="netList" style="width: 100%">
+    <el-table :data="hasNet ? netList : []" style="width: 100%">
         <el-table-column label="id" width="180">
           <template #default="scope">
             <div style="display: flex; align-items: center">
@@ -65,6 +65,9 @@ const netDelete = (index: number, row: NetType) => {
 const store =useStore();
 const networks =computed(()=>{
   return store.getters['getNetworks']
+})
+const hasNet =computed(()=>{
+  return store.getters['isNet']
 })
 let netList:NetType[] =[];
 const generateNetList=()=>{

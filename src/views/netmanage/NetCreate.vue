@@ -16,7 +16,7 @@
                        multiple
                        :limit="1"
                      >
-                        <el-button type="primary">导入配置文件</el-button>
+                        <el-button type="primary" @click="importCfg">导入配置文件</el-button>
                     </el-upload>
                 </el-form-item>
             </el-form>
@@ -52,6 +52,10 @@ const createNetwork =()=>{
         id:network.value.id,
         network:network.value
     })
+}
+
+const importCfg =()=>{
+    store.commit('setIsNet')
 }
 
 const fileList = ref<UploadUserFile[]>([])

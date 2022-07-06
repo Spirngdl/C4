@@ -19,7 +19,7 @@ function seededRandom(seed:number):any {
 }
 let timer:any;
 function getData(data:any,i:number):any{
-    const res = Math.round((Math.random() - 0.5) * 1000 + data[i - 1][1])
+    const res = Math.round((Math.random() - 0.9) * 1000 + data[i - 1][1])
     if (res<0) return 0;
     else return res;
 }

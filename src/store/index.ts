@@ -10,7 +10,8 @@ export interface State{
   },
   addtionalInfo:{
     [index:string]:any;
-  }
+  },
+  hasNet:boolean
 }
 
 // 定义mutations
@@ -54,11 +55,18 @@ export const mutations ={
     addElement(state:State,{id,element,elementObj}:any){
         // elementObj就是要添加的element
         (state.networks[id][element as keyof NetworkType] as Array<any>).push(elementObj)
+    },
+    setIsNet(state:State){
+      state.hasNet =true
     }
 }
 
 // 定义getters
 export const getters ={
+    // 获取登录状态
+    isNet:(state:State)=>{
+      return state.hasNet;
+    },
     // 获取网络列表
     getNetworks:(state:State)=>{
       return state.networks
@@ -75,8 +83,8 @@ export const getters ={
       // 长度
       const length =(state.networks['new'][element as keyof NetworkType] as Array<any>).length
       return (state.networks['new'][element as keyof NetworkType] as Array<any>)[length-1];
-
     }
+
 }
 
 export const key: InjectionKey<Store<State>> = Symbol()
@@ -95,7 +103,8 @@ export const store = createStore<State>({
     },
     addtionalInfo:{
       '0001':additionalInfo
-    }
+    },
+    hasNet:false, //用于检测是否登录
   },
   getters:getters,
   mutations:mutations as any

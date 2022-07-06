@@ -12,21 +12,21 @@
                 <img src="../../assets/icons/switch.svg">
                 <div class="item-content">
                      <h4>已上线交换机：</h4>
-                    <span>{{"测试数据"}}</span>
+                    <span>{{isLogin ? network.switches.length:'未检测到网络'}}</span>
                 </div>
             </div>
              <div class="item">
                 <img src="../../assets/icons/router.svg">
                 <div class="item-content">
                      <h4>已上线路由器：</h4>
-                    <span>{{"测试数据"}}</span>
+                    <span>{{isLogin ? 0:'未检测到网络'}}</span>
                 </div>
             </div>
              <div class="item">
                 <img src="../../assets/icons/pc.svg">
                 <div class="item-content">
                      <h4>已上线主机：</h4>
-                    <span>{{"测试数据"}}</span>
+                    <span>{{isLogin ? network.hosts.length:'未检测到网络'}}</span>
                 </div>
             </div>
         </section>
@@ -39,21 +39,23 @@
                     <span>标签</span>
                 </div>
                  <el-scrollbar height="650px" ref="scrollList" @scroll="scroll">
-                      <p v-for="(item,index) in things" :key="item.time" class="scrollbar-demo-item" >
+                      <p v-for="(item,index) in things" :key="item.time" class="scrollbar-demo-item" v-if="isLogin">
                         <span>{{"#"+index}}</span>
                         <span>{{item.descrip}}</span>
                         <span>{{item.time}}</span>
                         <el-tag class="ml-2" type="success">{{item.remark}}</el-tag>
                       </p>
+                      <p v-else style="display:flex;justify-content:center;
+                       margin-top:40px;font-size:larger;font-weight:600;">未检测到网络！！</p>
                 </el-scrollbar>
             </section>
             <section class="state">
                 <div class="state-header">设备上线状态</div>
                 <div class="item">
-                    <div><span>ONOS CONTROLLER</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;"/></div>
-                    <div><span>ROUTES</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;" /></div>
-                    <div><span>SWITCHES</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;" /></div>
-                    <div><span>HOSTS</span><el-progress :text-inside="true" :stroke-width="26" :percentage="100" style="width:500px;"  /></div>
+                    <div><span>ONOS CONTROLLER</span><el-progress :text-inside="true" :stroke-width="26" :percentage="p" style="width:500px;"/></div>
+                    <div><span>ROUTES</span><el-progress :text-inside="true" :stroke-width="26" :percentage="p" style="width:500px;" /></div>
+                    <div><span>SWITCHES</span><el-progress :text-inside="true" :stroke-width="26" :percentage="p" style="width:500px;" /></div>
+                    <div><span>HOSTS</span><el-progress :text-inside="true" :stroke-width="26" :percentage="p" style="width:500px;"  /></div>
                 </div>
             </section>
         </section>
@@ -62,9 +64,12 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, onUnmounted, reactive, ref} from "vue"
+import {onMounted, onUnmounted, reactive, ref,computed,watch} from "vue"
 import { ElScrollbar } from 'element-plus'
 import things from "@/object/data/dashboardScrollList"
+import {useStore} from "@/store/index"
+
+const store =useStore()
 
 let date =ref('');
 const value =ref(0)
@@ -94,6 +99,12 @@ const state:any =reactive({
     AutoScroll:null,
     DisplayDate:null
 })
+const isLogin =computed(()=>{
+    return store.getters['isNet']
+})
+const network =store.getters.getNetwork('0001')
+let p =ref(0)
+if (isLogin){p.value =100;}
 
 onMounted(()=>{ 
     state.AutoScroll =setInterval(()=>{
