@@ -104,8 +104,11 @@ const isLogin =computed(()=>{
 })
 const network =store.getters.getNetwork('0001')
 let p =ref(0)
-if (isLogin){p.value =100;}
-
+if (isLogin.value){
+    p.value =100;
+}else {
+    p.value =0
+}
 onMounted(()=>{ 
     state.AutoScroll =setInterval(()=>{
         if (value.value>=600) value.value=0;
