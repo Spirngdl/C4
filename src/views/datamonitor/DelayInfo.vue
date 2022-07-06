@@ -23,7 +23,7 @@ function getRandom(min:number,max:number){
 }
 
 for (let i = 0; i < network.links.length; ++i) {
-  data.push(Math.round(Math.random() * 20));
+  data.push(0);
 }
 let timer:any;
 onMounted(()=>{
@@ -64,7 +64,7 @@ onMounted(()=>{
     function update() {
       var data = option.series[0].data;
       for (var i = 0; i < data.length; ++i) {
-        let random = Math.round(getRandom(-5,5));
+        let random = Math.round(getRandom(-5,10));
         if (random+data[i]<=0){
             data[i] =0;
         }else {
